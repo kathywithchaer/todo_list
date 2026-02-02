@@ -2,6 +2,8 @@
 
 A WeChat Mini Program for task management, built with **Taro** and **React**.
 
+[English](./README.md) | [中文](./README_zh.md)
+
 ## Features
 
 - **Task Management**: Create, view, and manage tasks.
