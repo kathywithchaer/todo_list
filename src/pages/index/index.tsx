@@ -83,25 +83,17 @@ export default function Index() {
     <View className='index'>
       {/* User Profile Header */}
       <View className='profile-header'>
-        {!userInfo?.avatarUrl ? (
+        {!userInfo ? (
           <View className='login-section'>
-            <Button className='avatar-btn' openType='chooseAvatar' onChooseAvatar={onChooseAvatar}>
-              <View className='avatar-placeholder' />
+            <View className='avatar-placeholder' onClick={handleLogin} />
+            <Button className='login-btn' onClick={handleLogin}>
+              微信授权登录
             </Button>
-            <Text className='login-tip'>点击头像登录</Text>
           </View>
         ) : (
           <View className='user-info'>
-            <Button className='avatar-btn' openType='chooseAvatar' onChooseAvatar={onChooseAvatar}>
-              <Image className='avatar' src={userInfo.avatarUrl} />
-            </Button>
-            <Input
-              className='nickname-input'
-              type='nickname'
-              placeholder='请输入昵称'
-              value={userInfo.nickName}
-              onBlur={onNicknameBlur}
-            />
+            <Image className='avatar' src={userInfo.avatarUrl} />
+            <Text className='nickname'>{userInfo.nickName}</Text>
           </View>
         )}
       </View>
