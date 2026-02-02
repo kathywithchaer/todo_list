@@ -4,7 +4,7 @@ import { useState } from 'react'
 import './index.scss'
 
 interface Task {
-  _id: string
+  id: number
   title: string
   priority: number
   description: string
@@ -24,42 +24,16 @@ export default function Index() {
   const [tasks, setTasks] = useState<Task[]>([])
 
   useDidShow(() => {
-    fetchTasks()
+    const storedTasks = Taro.getStorageSync('tasks') || []
+    setTasks(storedTasks)
   })
 
-  const fetchTasks = () => {
-    const db = Taro.cloud.database()
-    db.collection('tasks')
-      .orderBy('createTime', 'desc')
-      .get()
-      .then(res => {
-        setTasks(res.data as Task[])
-      })
-      .catch(err => {
-        console.error(err)
-        Taro.showToast({ title: '获取数据失败', icon: 'none' })
-      })
-  }
-
-  const handleComplete = (id: string) => {
-    const db = Taro.cloud.database()
-    Taro.showLoading({ title: '更新中...' })
-
-    db.collection('tasks').doc(id).update({
-      data: {
-        status: 'processed'
-      },
-      success: function (res) {
-        console.log(res)
-        Taro.hideLoading()
-        fetchTasks() // Refresh list
-      },
-      fail: function (err) {
-        console.error(err)
-        Taro.hideLoading()
-        Taro.showToast({ title: '更新失败', icon: 'none' })
-      }
-    })
+  const handleComplete = (id: number) => {
+    const updatedTasks = tasks.map(t =>
+      t.id === id ? { ...t, status: 'processed' as const } : t
+    )
+    setTasks(updatedTasks)
+    Taro.setStorageSync('tasks', updatedTasks)
   }
 
   // const handleDelete = (id: number) => {
@@ -98,13 +72,13 @@ export default function Index() {
           <View className='empty-state'>暂无数据</View>
         ) : (
           filteredTasks.map(task => (
-            <View key={task._id} className='task-card'>
+            <View key={task.id} className='task-card'>
               <View className='task-left'>
                 <View className='task-icon-bar' />
                 <View className='task-content'>
                   <View className='task-header'>
                     <Text className='task-title'>{task.title}</Text>
-                    {activeTab === 'pending' && <View className='check-btn' onClick={() => handleComplete(task._id)}>✔</View>}
+                    {activeTab === 'pending' && <View className='check-btn' onClick={() => handleComplete(task.id)}>✔</View>}
                   </View>
                   <View className='task-meta'>
                     <Text>创建时间：{task.createTime}</Text>
