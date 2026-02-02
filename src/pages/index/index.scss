@@ -210,8 +210,10 @@
     position: fixed;
     bottom: 48px;
     right: 24px;
-    width: 56px;
-    height: 56px;
+    width: 72px;
+    /* Increased from 56px */
+    height: 72px;
+    /* Increased from 56px */
     background-color: #40a9ff;
     border-radius: 50%;
     display: flex;
@@ -223,6 +225,11 @@
 
 .fab-icon {
     color: #fff;
-    font-size: 32px;
+    font-size: 48px;
+    /* Increased from 32px */
     line-height: 1;
+    font-weight: 300;
+    /* Sleeker look for large icon */
+    margin-top: -4px;
+    /* Optical adjustment for center */
 }
