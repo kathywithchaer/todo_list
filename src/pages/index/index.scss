@@ -7,70 +7,73 @@
     flex-direction: column;
 }
 
-.profile-header {
-    background: #fff;
-    padding: 20px 24px;
+/* Top Right Avatar */
+.top-right-avatar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+}
+
+.mini-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    display: block;
+}
+
+/* Login Modal */
+.login-modal-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
-.login-section,
-.user-info {
+.login-modal {
+    width: 280px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.login-btn {
-    margin-top: 12px;
-    background-color: #07c160;
-    /* WeChat Green */
-    color: #fff;
-    font-size: 14px;
-    padding: 4px 24px;
-    border-radius: 20px;
-    line-height: 2;
-}
-
-.login-btn::after {
-    border: none;
-}
-
-.avatar-placeholder {
-    width: 80px;
-    height: 80px;
-    background-color: #e0e0e0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-}
-
-.avatar-placeholder::before {
-    content: "未";
-    font-size: 32px;
-    color: #999;
-}
-
-.avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: block;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.nickname {
-    margin-top: 8px;
+.modal-title {
     font-size: 18px;
     font-weight: bold;
     color: #333;
+    margin-bottom: 12px;
+}
+
+.modal-desc {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.modal-login-btn {
+    width: 100%;
+    background-color: #07c160;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 8px 0;
+}
+
+.modal-login-btn::after {
+    border: none;
 }
 
 .tabs {
