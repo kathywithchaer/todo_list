@@ -38,22 +38,25 @@ export default function Index() {
     }
   })
 
-  // Handle Avatar Selection
-  const onChooseAvatar = (e) => {
-    const { avatarUrl } = e.detail
-    const newUserInfo = { ...userInfo, avatarUrl, nickName: userInfo?.nickName || '微信用户' }
-    setUserInfo(newUserInfo as UserInfo)
-    Taro.setStorageSync('userInfo', newUserInfo)
-  }
-
-  // Handle Nickname Input
-  const onNicknameBlur = (e) => {
-    const nickName = e.detail.value
-    if (nickName) {
-      const newUserInfo = { ...userInfo, nickName, avatarUrl: userInfo?.avatarUrl || '' }
-      setUserInfo(newUserInfo as UserInfo)
-      Taro.setStorageSync('userInfo', newUserInfo)
-    }
+  // Handle Login (WeChat Authorization)
+  const handleLogin = () => {
+    Taro.getUserProfile({
+      desc: '用于完善会员资料', // Required by WeChat
+      success: (res) => {
+        const { userInfo: authUserInfo } = res
+        const newUserInfo = {
+          avatarUrl: authUserInfo.avatarUrl,
+          nickName: authUserInfo.nickName
+        }
+        setUserInfo(newUserInfo)
+        Taro.setStorageSync('userInfo', newUserInfo)
+        Taro.showToast({ title: '登录成功', icon: 'success' })
+      },
+      fail: (err) => {
+        console.error(err)
+        Taro.showToast({ title: '您拒绝了授权', icon: 'none' })
+      }
+    })
   }
 
   const handleComplete = (id: number) => {

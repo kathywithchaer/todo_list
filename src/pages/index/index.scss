@@ -24,35 +24,37 @@
     align-items: center;
 }
 
-.avatar-btn {
-    width: 80px;
-    height: 80px;
-    padding: 0;
-    margin: 0;
-    background: none;
-    border: none;
-    border-radius: 50%;
-    margin-bottom: 12px;
+.login-btn {
+    margin-top: 12px;
+    background-color: #07c160;
+    /* WeChat Green */
+    color: #fff;
+    font-size: 14px;
+    padding: 4px 24px;
+    border-radius: 20px;
+    line-height: 2;
 }
 
-.avatar-btn::after {
+.login-btn::after {
     border: none;
 }
 
 .avatar-placeholder {
     width: 80px;
     height: 80px;
-    background-color: #e6f7ff;
+    background-color: #e0e0e0;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    cursor: pointer;
 }
 
 .avatar-placeholder::before {
-    content: "👤";
-    font-size: 40px;
+    content: "未";
+    font-size: 32px;
+    color: #999;
 }
 
 .avatar {
@@ -60,20 +62,15 @@
     height: 80px;
     border-radius: 50%;
     display: block;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.login-tip {
-    font-size: 14px;
-    color: #666;
-}
-
-.nickname-input {
-    text-align: center;
+.nickname {
+    margin-top: 8px;
     font-size: 18px;
     font-weight: bold;
     color: #333;
-    min-width: 120px;
-    height: 32px;
 }
 
 .tabs {
