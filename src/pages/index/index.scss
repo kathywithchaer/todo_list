@@ -79,7 +79,13 @@
 .task-title {
     font-size: 18px;
     font-weight: bold;
-    color: #333;
+    color: #333; // Keep text dark for contrast
+    background-color: #e6f7ff;
+    /* Light Blue Background */
+    padding: 4px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 8px;
 }
 
 .check-btn {
