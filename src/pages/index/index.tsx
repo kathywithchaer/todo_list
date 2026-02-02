@@ -38,11 +38,34 @@ export default function Index() {
     }
   })
 
-  // Handle Login (WeChat Authorization)
+  // Handle Login / Action Sheet
+  const handleAvatarClick = () => {
+    if (!userInfo) {
+      // If not logged in, trigger login directly
+      handleLogin()
+    } else {
+      // If logged in, show options
+      Taro.showActionSheet({
+        itemList: ['更新用户信息', '退出登录'],
+        itemColor: '#333',
+        success: (res) => {
+          if (res.tapIndex === 0) {
+            // Update Info
+            handleLogin()
+          } else if (res.tapIndex === 1) {
+            // Logout
+            handleLogout()
+          }
+        }
+      })
+    }
+  }
+
+  // Actual Login Logic
   const handleLogin = () => {
     console.log('handleLogin called');
     Taro.getUserProfile({
-      desc: '用于完善会员资料', // Required by WeChat
+      desc: '用于完善会员资料',
       success: (res) => {
         const { userInfo: authUserInfo } = res
         const newUserInfo = {
@@ -51,13 +74,19 @@ export default function Index() {
         }
         setUserInfo(newUserInfo)
         Taro.setStorageSync('userInfo', newUserInfo)
-        Taro.showToast({ title: '登录成功', icon: 'success' })
+        Taro.showToast({ title: '更新成功', icon: 'success' })
       },
       fail: (err) => {
-        console.error(err)
-        Taro.showToast({ title: '您拒绝了授权', icon: 'none' })
+        console.log(err)
+        // User declined or error
       }
     })
+  }
+
+  const handleLogout = () => {
+    setUserInfo(null)
+    Taro.removeStorageSync('userInfo')
+    Taro.showToast({ title: '已退出', icon: 'none' })
   }
 
   const handleComplete = (id: number) => {
@@ -122,10 +151,7 @@ export default function Index() {
                 border: 'none',
                 display: 'flex'
               }}
-              onClick={() => {
-                console.log('Avatar clicked, triggering login...');
-                handleLogin();
-              }}
+              onClick={handleAvatarClick}
             >
               <Image className='mini-avatar' src={userInfo.avatarUrl} />
             </Button>
