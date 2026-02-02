@@ -114,11 +114,17 @@
     padding: 8px;
     border-radius: 8px;
     display: flex;
+    flex-direction: column;
+    /* Vertical layout */
+    align-items: flex-start;
+    /* Align left */
 }
 
 .task-desc .label {
     color: #999;
     flex-shrink: 0;
+    margin-bottom: 4px;
+    /* Space between label and content */
 }
 
 .fab {
