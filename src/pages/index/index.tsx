@@ -81,22 +81,18 @@ export default function Index() {
 
   return (
     <View className='index'>
-      {/* User Profile Header */}
-      <View className='profile-header'>
-        {!userInfo ? (
-          <View className='login-section'>
-            <View className='avatar-placeholder' onClick={handleLogin} />
-            <Button className='login-btn' onClick={handleLogin}>
+      {/* Login Modal (Only show when NOT logged in) */}
+      {!userInfo && (
+        <View className='login-modal-mask'>
+          <View className='login-modal'>
+            <View className='modal-title'>欢迎使用</View>
+            <View className='modal-desc'>为了同步您的任务数据，请授权登录</View>
+            <Button className='modal-login-btn' onClick={handleLogin}>
               微信授权登录
             </Button>
           </View>
-        ) : (
-          <View className='user-info'>
-            <Image className='avatar' src={userInfo.avatarUrl} />
-            <Text className='nickname'>{userInfo.nickName}</Text>
-          </View>
-        )}
-      </View>
+        </View>
+      )}
 
       {/* Tabs */}
       <View className='tabs'>
@@ -112,6 +108,13 @@ export default function Index() {
         >
           已处理
         </View>
+
+        {/* Avatar - Far Right */}
+        {userInfo && (
+          <View className='tab-avatar'>
+            <Image className='mini-avatar' src={userInfo.avatarUrl} />
+          </View>
+        )}
       </View>
 
       {/* Task List */}
