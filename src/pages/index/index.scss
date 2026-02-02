@@ -209,11 +209,10 @@
 .fab {
     position: fixed;
     bottom: 48px;
-    right: 24px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 72px;
-    /* Increased from 56px */
     height: 72px;
-    /* Increased from 56px */
     background-color: #40a9ff;
     border-radius: 50%;
     display: flex;
