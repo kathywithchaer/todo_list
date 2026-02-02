@@ -111,7 +111,7 @@ export default function Index() {
 
         {/* Avatar - Far Right */}
         {userInfo && (
-          <View className='tab-avatar'>
+          <View className='tab-avatar' onClick={handleLogin}>
             <Image className='mini-avatar' src={userInfo.avatarUrl} />
           </View>
         )}
