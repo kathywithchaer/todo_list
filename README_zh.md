@@ -65,6 +65,40 @@ src/
 └── ...
 ```
 
+## 用户登录与授权流程
+
+采用微信小程序的 `getUserProfile` 接口进行用户身份识别：
+1. **欢迎弹窗**：首次进入小程序（或缓存清除后）时，展示全屏模态框引导用户登录。
+2. **授权请求**：用户点击“微信授权登录”按钮，触发系统级授权弹窗。
+3. **数据存储**：授权成功后，获取用户头像和昵称，存储在本地 `LocalStorage` 中。
+4. **界面更新**：右上角显示用户头像，隐藏欢迎弹窗。
+
+## 数据结构 (本地存储)
+
+本项目目前使用的是 **Standalone Mode (单机模式)**，所有数据保存在本地客户端。
+
+### 1. 任务列表 (`tasks`)
+存储在 `Taro.getStorageSync('tasks')`，数组结构：
+```ts
+interface Task {
+  id: number           // 时间戳 ID
+  title: string        // 任务标题
+  priority: number     // 优先级 (0:重要且紧急, 1:重要不紧急, 2:紧急不重要, 3:不紧急不重要)
+  description: string  // 任务详情
+  createTime: string   // 创建时间 (例如 "2023/10/01 12:00:00")
+  status: 'pending' | 'processed' // 任务状态
+}
+```
+
+### 2. 用户信息 (`userInfo`)
+存储在 `Taro.getStorageSync('userInfo')`，结构如下：
+```ts
+interface UserInfo {
+  avatarUrl: string    // 微信头像 URL
+  nickName: string     // 微信昵称
+}
+```
+
 ## 开源协议
 
 MIT
