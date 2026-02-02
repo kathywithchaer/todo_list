@@ -21,7 +21,7 @@ export default function Add() {
             title,
             priority: Number(priorityIndex),
             description,
-            createTime: new Date().toLocaleString(), // Simple formatting
+            createTime: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false }),
             status: 'pending' as const
         }
 
