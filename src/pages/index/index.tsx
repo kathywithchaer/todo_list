@@ -4,7 +4,7 @@ import { useState } from 'react'
 import './index.scss'
 
 interface Task {
-  id: number
+  _id: string
   title: string
   priority: number
   description: string
@@ -29,12 +29,22 @@ export default function Index() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
 
-  useDidShow(() => {
-    const storedTasks = Taro.getStorageSync('tasks') || []
-    setTasks(storedTasks)
+  useDidShow(async () => {
+    // 1. Fetch UserInfo (Local is fine for cache, but auth is gate)
     const storedUserInfo = Taro.getStorageSync('userInfo')
     if (storedUserInfo) {
       setUserInfo(storedUserInfo)
+    }
+
+    // 2. Fetch Tasks from Cloud
+    const db = Taro.cloud.database()
+    try {
+      const res = await db.collection('todos').get()
+      setTasks(res.data as unknown as Task[]) // Cast to Task[]
+    } catch (err) {
+      console.error('Fetch tasks failed', err)
+      // Fallback or empty if connection fails (e.g. no collection)
+      // Taro.showToast({ title: '加载失败', icon: 'none' })
     }
   })
 
@@ -78,7 +88,6 @@ export default function Index() {
       },
       fail: (err) => {
         console.log(err)
-        // User declined or error
       }
     })
   }
@@ -89,12 +98,22 @@ export default function Index() {
     Taro.showToast({ title: '已退出', icon: 'none' })
   }
 
-  const handleComplete = (id: number) => {
-    const updatedTasks = tasks.map(t =>
-      t.id === id ? { ...t, status: 'processed' as const } : t
-    )
-    setTasks(updatedTasks)
-    Taro.setStorageSync('tasks', updatedTasks)
+  const handleComplete = (id: string) => {
+    const db = Taro.cloud.database()
+    db.collection('todos').doc(id).update({
+      data: {
+        status: 'processed'
+      },
+      success: function (res) {
+        // Optimistic update locally
+        const updatedTasks = tasks.map(t =>
+          t._id === id ? { ...t, status: 'processed' as const } : t
+        )
+        setTasks(updatedTasks)
+        Taro.showToast({ title: '已完成', icon: 'success' })
+      },
+      fail: console.error
+    })
   }
 
   // const handleDelete = (id: number) => {
@@ -165,13 +184,13 @@ export default function Index() {
           <View className='empty-state'>暂无数据</View>
         ) : (
           filteredTasks.map(task => (
-            <View key={task.id} className='task-card'>
+            <View key={task._id} className='task-card'>
               <View className='task-left'>
                 <View className='task-icon-bar' />
                 <View className='task-content'>
                   <View className='task-header'>
                     <Text className='task-title'>{task.title}</Text>
-                    {activeTab === 'pending' && <View className='check-btn' onClick={() => handleComplete(task.id)}>✔</View>}
+                    {activeTab === 'pending' && <View className='check-btn' onClick={() => handleComplete(task._id)}>✔</View>}
                   </View>
                   <View className='task-meta'>
                     <Text>创建时间：{task.createTime}</Text>

@@ -16,23 +16,31 @@ export default function Add() {
             return
         }
 
-        const newTask = {
-            id: Date.now(),
-            title,
-            priority: Number(priorityIndex),
-            description,
-            createTime: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false }),
-            status: 'pending' as const
-        }
+        const db = Taro.cloud.database()
 
-        const tasks = Taro.getStorageSync('tasks') || []
-        tasks.unshift(newTask)
-        Taro.setStorageSync('tasks', tasks)
+        Taro.showLoading({ title: '保存中...' })
 
-        Taro.showToast({ title: '保存成功', icon: 'success' })
-        setTimeout(() => {
-            Taro.navigateBack()
-        }, 500)
+        db.collection('todos').add({
+            data: {
+                title,
+                priority: Number(priorityIndex),
+                description,
+                createTime: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false }),
+                status: 'pending' // No _id needed, auto-generated
+            },
+            success: function (res) {
+                Taro.hideLoading()
+                Taro.showToast({ title: '保存成功', icon: 'success' })
+                setTimeout(() => {
+                    Taro.navigateBack()
+                }, 500)
+            },
+            fail: function (err) {
+                Taro.hideLoading()
+                console.error(err)
+                Taro.showToast({ title: '保存失败', icon: 'none' })
+            }
+        })
     }
 
     return (
