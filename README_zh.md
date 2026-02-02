@@ -73,31 +73,52 @@ src/
 3. **数据存储**：授权成功后，获取用户头像和昵称，存储在本地 `LocalStorage` 中。
 4. **界面更新**：右上角显示用户头像，隐藏欢迎弹窗。
 
-## 数据结构 (本地存储)
+## 数据结构 (微信云开发)
 
-本项目目前使用的是 **Standalone Mode (单机模式)**，所有数据保存在本地客户端。
+本项目已从本地存储迁移至 **微信云开发 (WeChat Cloud Development)**。数据存储在云端的 NoSQL 数据库集合 `todos` 中。
 
-### 1. 任务列表 (`tasks`)
-存储在 `Taro.getStorageSync('tasks')`，数组结构：
-```ts
-interface Task {
-  id: number           // 时间戳 ID
-  title: string        // 任务标题
-  priority: number     // 优先级 (0:重要且紧急, 1:重要不紧急, 2:紧急不重要, 3:不紧急不重要)
-  description: string  // 任务详情
-  createTime: string   // 创建时间 (例如 "2023/10/01 12:00:00")
-  status: 'pending' | 'processed' // 任务状态
+### 1. 任务集合 (`todos`)
+每一条任务是一个 JSON 文档 (Document)，结构说明如下：
+
+```json
+{
+  "_id": "系统自动生成",      // 记录唯一标识符 (Primary Key)
+  "_openid": "系统自动生成",  // 用户唯一标识符 (User ID)，用于权限隔离
+  
+  "title": "任务标题",        // String
+  "description": "任务描述",  // String
+  "priority": 0,             // Number (0-3: 对应四象限优先级)
+  "status": "pending",       // String ('pending' | 'processed')
+  "createTime": "2026/...",  // String (创建时间字符串)
 }
 ```
 
+> **注意**：`_openid` 是云开发根据当前登录用户自动添加的字段。默认权限下，用户只能读写带有自己 `_openid` 的数据，从而实现多用户数据隔离。
+
 ### 2. 用户信息 (`userInfo`)
-存储在 `Taro.getStorageSync('userInfo')`，结构如下：
+目前用户信息（头像/昵称）仍缓存在本地 Storage 中，用于界面展示，未存入云端数据库（隐私保护）。
 ```ts
 interface UserInfo {
   avatarUrl: string    // 微信头像 URL
   nickName: string     // 微信昵称
 }
 ```
+
+## 如何让其他人部署 (二次开发)
+
+如果您想把代码分享给朋友，或者部署到另一个小程序账号上，需要执行以下“换锁”步骤：
+
+1.  **注册账号**：
+    *   使用者需要去 [微信公众平台](https://mp.weixin.qq.com/) 注册一个小程序账号，获取自己的 **AppID**。
+
+2.  **代码配置修改**：
+    *   打开 `project.config.json`，将 `appid` 字段修改为新账号的 AppID。
+    *   打开 `src/app.ts`，将 `env` 字段修改为新账号下的 **云环境 ID**。
+
+3.  **云环境初始化**：
+    *   在微信开发者工具中，点击“云开发”开通服务。
+    *   创建名为 `todos` 的数据库集合。
+    *   (可选) 如果有多人开发，需设置数据库权限为“所有用户可读写”（仅限调试）或维护各自的 `_openid` 数据。
 
 ## 开源协议
 
