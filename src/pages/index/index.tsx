@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from '@tarojs/components'
+import { View, Text, ScrollView, Button, Image, Input } from '@tarojs/components'
 import Taro, { useDidShow } from '@tarojs/taro'
 import { useState } from 'react'
 import './index.scss'
@@ -12,6 +12,11 @@ interface Task {
   status: 'pending' | 'processed'
 }
 
+interface UserInfo {
+  avatarUrl: string
+  nickName: string
+}
+
 const PRIORITY_MAP = {
   0: { label: '重要且紧急', color: '#ff4d4f' },
   1: { label: '重要不紧急', color: '#faad14' },
@@ -22,11 +27,34 @@ const PRIORITY_MAP = {
 export default function Index() {
   const [activeTab, setActiveTab] = useState<'pending' | 'processed'>('pending')
   const [tasks, setTasks] = useState<Task[]>([])
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
 
   useDidShow(() => {
     const storedTasks = Taro.getStorageSync('tasks') || []
     setTasks(storedTasks)
+    const storedUserInfo = Taro.getStorageSync('userInfo')
+    if (storedUserInfo) {
+      setUserInfo(storedUserInfo)
+    }
   })
+
+  // Handle Avatar Selection
+  const onChooseAvatar = (e) => {
+    const { avatarUrl } = e.detail
+    const newUserInfo = { ...userInfo, avatarUrl, nickName: userInfo?.nickName || '微信用户' }
+    setUserInfo(newUserInfo as UserInfo)
+    Taro.setStorageSync('userInfo', newUserInfo)
+  }
+
+  // Handle Nickname Input
+  const onNicknameBlur = (e) => {
+    const nickName = e.detail.value
+    if (nickName) {
+      const newUserInfo = { ...userInfo, nickName, avatarUrl: userInfo?.avatarUrl || '' }
+      setUserInfo(newUserInfo as UserInfo)
+      Taro.setStorageSync('userInfo', newUserInfo)
+    }
+  }
 
   const handleComplete = (id: number) => {
     const updatedTasks = tasks.map(t =>
@@ -50,6 +78,31 @@ export default function Index() {
 
   return (
     <View className='index'>
+      {/* User Profile Header */}
+      <View className='profile-header'>
+        {!userInfo?.avatarUrl ? (
+          <View className='login-section'>
+            <Button className='avatar-btn' openType='chooseAvatar' onChooseAvatar={onChooseAvatar}>
+              <View className='avatar-placeholder' />
+            </Button>
+            <Text className='login-tip'>点击头像登录</Text>
+          </View>
+        ) : (
+          <View className='user-info'>
+            <Button className='avatar-btn' openType='chooseAvatar' onChooseAvatar={onChooseAvatar}>
+              <Image className='avatar' src={userInfo.avatarUrl} />
+            </Button>
+            <Input
+              className='nickname-input'
+              type='nickname'
+              placeholder='请输入昵称'
+              value={userInfo.nickName}
+              onBlur={onNicknameBlur}
+            />
+          </View>
+        )}
+      </View>
+
       {/* Tabs */}
       <View className='tabs'>
         <View

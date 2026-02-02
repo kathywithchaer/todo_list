@@ -3,6 +3,77 @@
     background-color: #f5f7fa;
     padding-bottom: 100px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-header {
+    background: #fff;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.login-section,
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-btn {
+    width: 80px;
+    height: 80px;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    margin-bottom: 12px;
+}
+
+.avatar-btn::after {
+    border: none;
+}
+
+.avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    background-color: #e6f7ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.avatar-placeholder::before {
+    content: "👤";
+    font-size: 40px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: block;
+}
+
+.login-tip {
+    font-size: 14px;
+    color: #666;
+}
+
+.nickname-input {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    min-width: 120px;
+    height: 32px;
 }
 
 .tabs {
