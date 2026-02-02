@@ -107,10 +107,9 @@
 }
 
 .task-list {
-    padding: 0 16px;
+    /* padding: 0 16px;  Moved to container inside or child */
     box-sizing: border-box;
     height: calc(100vh - 80px);
-    /* Adjust based on tabs height */
 }
 
 .empty-state {
@@ -123,7 +122,8 @@
     background: #fff;
     border-radius: 12px;
     padding: 16px;
-    margin-bottom: 16px;
+    margin: 0 16px 16px 16px;
+    /* Added horizontal margin 16px */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     position: relative;
     display: flex;
