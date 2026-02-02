@@ -71,15 +71,14 @@
 
 .task-header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
-    background-color: #f8f8f8;
-    /* Gray Background */
+    background-color: #e6f7ff;
+    /* Light Blue Background */
     padding: 12px;
     margin: -16px -16px 8px -16px;
     border-radius: 12px 12px 0 0;
-    position: relative;
 }
 
 .task-title {
@@ -97,8 +96,8 @@
     color: #40a9ff;
     font-size: 20px;
     font-weight: bold;
-    position: absolute;
-    right: 12px;
+    margin-right: 4px;
+    /* Slight offset from edge */
 }
 
 .task-meta {
