@@ -40,6 +40,7 @@ export default function Index() {
 
   // Handle Login (WeChat Authorization)
   const handleLogin = () => {
+    console.log('handleLogin called');
     Taro.getUserProfile({
       desc: '用于完善会员资料', // Required by WeChat
       success: (res) => {
@@ -111,8 +112,23 @@ export default function Index() {
 
         {/* Avatar - Far Right */}
         {userInfo && (
-          <View className='tab-avatar' onClick={handleLogin}>
-            <Image className='mini-avatar' src={userInfo.avatarUrl} />
+          <View className='tab-avatar'>
+            <Button
+              style={{
+                padding: 0,
+                margin: 0,
+                background: 'transparent',
+                lineHeight: 1,
+                border: 'none',
+                display: 'flex'
+              }}
+              onClick={() => {
+                console.log('Avatar clicked, triggering login...');
+                handleLogin();
+              }}
+            >
+              <Image className='mini-avatar' src={userInfo.avatarUrl} />
+            </Button>
           </View>
         )}
       </View>
