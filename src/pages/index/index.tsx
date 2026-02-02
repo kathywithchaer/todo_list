@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, Button, Image, Input } from '@tarojs/components'
 import Taro, { useDidShow } from '@tarojs/taro'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './index.scss'
 
 interface Task {
@@ -71,8 +71,13 @@ export default function Index() {
     }
   }
 
+  const isLoggingIn = useRef(false) // Prevent double clicks
+
   // Actual Login Logic
   const handleLogin = () => {
+    if (isLoggingIn.current) return
+    isLoggingIn.current = true
+
     console.log('handleLogin called');
     Taro.getUserProfile({
       desc: '用于完善会员资料',
@@ -88,6 +93,12 @@ export default function Index() {
       },
       fail: (err) => {
         console.log(err)
+      },
+      complete: () => {
+        // Reset lock after a short delay to allow next attempt
+        setTimeout(() => {
+          isLoggingIn.current = false
+        }, 1000)
       }
     })
   }
