@@ -185,8 +185,8 @@
 }
 
 .task-meta {
-    font-size: 22px;
-    /* 18 -> 22 */
+    font-size: 26px;
+    /* 22 -> 26 */
     color: #999;
     margin-bottom: 8px;
     /* Slightly more space */
@@ -194,27 +194,24 @@
 
 .task-desc {
     margin-top: 8px;
-    font-size: 22px;
-    /* 18 -> 22 */
+    font-size: 26px;
+    /* 22 -> 26 */
     color: #666;
     background: #fafafa;
-    padding: 12px;
+    padding: 14px;
     /* More padding */
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    /* Vertical layout */
     align-items: flex-start;
-    /* Align left */
 }
 
 .task-desc .label {
     color: #999;
     flex-shrink: 0;
-    margin-bottom: 4px;
-    /* Space between label and content */
-    font-size: 20px;
-    /* Label 20 */
+    margin-bottom: 6px;
+    font-size: 24px;
+    /* 20 -> 24 */
 }
 
 .fab {
