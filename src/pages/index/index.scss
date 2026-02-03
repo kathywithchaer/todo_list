@@ -88,14 +88,11 @@
 
 .tab {
     height: 90px;
-    /* Taller tabs */
     padding: 0 44px;
-    font-size: 36px;
-    /* 30 -> 36 */
-    /* Larger text */
+    font-size: 30px;
+    /* 36 -> 30 (Decreased by 6px) */
     color: #666;
     border-radius: 45px;
-    /* Fully rounded pill shape (68/2) */
     margin-right: 16px;
     transition: all 0.3s;
     display: flex;
