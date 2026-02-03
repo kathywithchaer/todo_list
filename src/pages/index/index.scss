@@ -50,14 +50,16 @@
 }
 
 .modal-title {
-    font-size: 18px;
+    font-size: 22px;
+    /* 18 -> 22 */
     font-weight: bold;
     color: #333;
     margin-bottom: 12px;
 }
 
 .modal-desc {
-    font-size: 14px;
+    font-size: 16px;
+    /* 14 -> 16 */
     color: #666;
     margin-bottom: 24px;
     text-align: center;
@@ -68,7 +70,8 @@
     background-color: #07c160;
     color: #fff;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 20px;
+    /* 16 -> 20 */
     padding: 8px 0;
 }
 
@@ -87,7 +90,8 @@
     /* Fixed height as requested */
     padding: 0 40px;
     /* Horizontal padding, vertical handled by flex/height */
-    font-size: 24px;
+    font-size: 26px;
+    /* 24 -> 26 */
     /* Larger text */
     color: #666;
     border-radius: 34px;
@@ -161,7 +165,8 @@
 }
 
 .task-title {
-    font-size: 18px;
+    font-size: 24px;
+    /* 22 -> 24 */
     font-weight: bold;
     color: #333;
 }
@@ -180,14 +185,16 @@
 }
 
 .task-meta {
-    font-size: 14px;
+    font-size: 16px;
+    /* 14 -> 16 */
     color: #999;
     margin-bottom: 4px;
 }
 
 .task-desc {
     margin-top: 8px;
-    font-size: 14px;
+    font-size: 16px;
+    /* 14 -> 16 */
     color: #666;
     background: #fafafa;
     padding: 8px;
