@@ -185,19 +185,21 @@
 }
 
 .task-meta {
-    font-size: 16px;
-    /* 14 -> 16 */
+    font-size: 18px;
+    /* 16 -> 18 */
     color: #999;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    /* Slightly more space */
 }
 
 .task-desc {
     margin-top: 8px;
-    font-size: 16px;
-    /* 14 -> 16 */
+    font-size: 18px;
+    /* 16 -> 18 */
     color: #666;
     background: #fafafa;
-    padding: 8px;
+    padding: 10px;
+    /* More padding */
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -211,6 +213,8 @@
     flex-shrink: 0;
     margin-bottom: 4px;
     /* Space between label and content */
+    font-size: 16px;
+    /* Label slightly smaller than content? Or same? Let's keep it clean or make it 18 too. User said "task description bigger". I'll make the block 18px. */
 }
 
 .fab {
