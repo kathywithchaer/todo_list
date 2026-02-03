@@ -16,31 +16,23 @@ export default function Add() {
             return
         }
 
-        const db = Taro.cloud.database()
+        const newTask = {
+            id: Date.now(),
+            title,
+            priority: Number(priorityIndex),
+            description,
+            createTime: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false }),
+            status: 'pending' as const
+        }
 
-        Taro.showLoading({ title: '保存中...' })
+        const tasks = Taro.getStorageSync('tasks') || []
+        tasks.unshift(newTask)
+        Taro.setStorageSync('tasks', tasks)
 
-        db.collection('todos').add({
-            data: {
-                title,
-                priority: Number(priorityIndex),
-                description,
-                createTime: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false }),
-                status: 'pending' // No _id needed, auto-generated
-            },
-            success: function (res) {
-                Taro.hideLoading()
-                Taro.showToast({ title: '保存成功', icon: 'success' })
-                setTimeout(() => {
-                    Taro.navigateBack()
-                }, 500)
-            },
-            fail: function (err) {
-                Taro.hideLoading()
-                console.error(err)
-                Taro.showToast({ title: '保存失败', icon: 'none' })
-            }
-        })
+        Taro.showToast({ title: '保存成功', icon: 'success' })
+        setTimeout(() => {
+            Taro.navigateBack()
+        }, 500)
     }
 
     return (
@@ -74,7 +66,7 @@ export default function Add() {
                 <View className='form-item vertical'>
                     <Text className='label'>任务描述：</Text>
                     <Textarea
-                        className='textarea' // Note: textarea usually needs explicit styling
+                        className='textarea'
                         placeholder='请输入描述'
                         value={description}
                         onInput={e => setDescription(e.detail.value)}
