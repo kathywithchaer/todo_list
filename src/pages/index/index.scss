@@ -50,16 +50,16 @@
 }
 
 .modal-title {
-    font-size: 22px;
-    /* 18 -> 22 */
+    font-size: 26px;
+    /* 22 -> 26 */
     font-weight: bold;
     color: #333;
     margin-bottom: 12px;
 }
 
 .modal-desc {
-    font-size: 16px;
-    /* 14 -> 16 */
+    font-size: 20px;
+    /* 16 -> 20 */
     color: #666;
     margin-bottom: 24px;
     text-align: center;
@@ -70,9 +70,10 @@
     background-color: #07c160;
     color: #fff;
     border-radius: 8px;
-    font-size: 20px;
-    /* 16 -> 20 */
-    padding: 8px 0;
+    font-size: 24px;
+    /* 20 -> 24 */
+    padding: 12px 0;
+    /* Larger padding */
 }
 
 .modal-login-btn::after {
@@ -86,15 +87,14 @@
 }
 
 .tab {
-    height: 68px;
-    /* Fixed height as requested */
+    height: 80px;
+    /* Taller tabs */
     padding: 0 40px;
-    /* Horizontal padding, vertical handled by flex/height */
-    font-size: 26px;
-    /* 24 -> 26 */
+    font-size: 30px;
+    /* 26 -> 30 */
     /* Larger text */
     color: #666;
-    border-radius: 34px;
+    border-radius: 40px;
     /* Fully rounded pill shape (68/2) */
     margin-right: 16px;
     transition: all 0.3s;
@@ -165,8 +165,8 @@
 }
 
 .task-title {
-    font-size: 24px;
-    /* 22 -> 24 */
+    font-size: 28px;
+    /* 24 -> 28 */
     font-weight: bold;
     color: #333;
 }
@@ -185,20 +185,20 @@
 }
 
 .task-meta {
-    font-size: 18px;
-    /* 16 -> 18 */
+    font-size: 22px;
+    /* 18 -> 22 */
     color: #999;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     /* Slightly more space */
 }
 
 .task-desc {
     margin-top: 8px;
-    font-size: 18px;
-    /* 16 -> 18 */
+    font-size: 22px;
+    /* 18 -> 22 */
     color: #666;
     background: #fafafa;
-    padding: 10px;
+    padding: 12px;
     /* More padding */
     border-radius: 8px;
     display: flex;
@@ -213,8 +213,8 @@
     flex-shrink: 0;
     margin-bottom: 4px;
     /* Space between label and content */
-    font-size: 16px;
-    /* Label slightly smaller than content? Or same? Let's keep it clean or make it 18 too. User said "task description bigger". I'll make the block 18px. */
+    font-size: 20px;
+    /* Label 20 */
 }
 
 .fab {
