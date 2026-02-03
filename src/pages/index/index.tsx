@@ -4,7 +4,7 @@ import { useState, useRef } from 'react'
 import './index.scss'
 
 interface Task {
-  id: number
+  _id: string
   title: string
   priority: number
   description: string
@@ -30,15 +30,22 @@ export default function Index() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
 
   useDidShow(async () => {
-    // 1. Fetch UserInfo
+    // 1. Fetch UserInfo (Local is fine for cache, but auth is gate)
     const storedUserInfo = Taro.getStorageSync('userInfo')
     if (storedUserInfo) {
       setUserInfo(storedUserInfo)
     }
 
-    // 2. Fetch Tasks from Local Storage
-    const storedTasks = Taro.getStorageSync('tasks') || []
-    setTasks(storedTasks)
+    // 2. Fetch Tasks from Cloud
+    const db = Taro.cloud.database()
+    try {
+      const res = await db.collection('todos').get()
+      setTasks(res.data as unknown as Task[]) // Cast to Task[]
+    } catch (err) {
+      console.error('Fetch tasks failed', err)
+      // Fallback or empty if connection fails (e.g. no collection)
+      // Taro.showToast({ title: '加载失败', icon: 'none' })
+    }
   })
 
   // Handle Login / Action Sheet
@@ -188,13 +195,13 @@ export default function Index() {
           <View className='empty-state'>暂无数据</View>
         ) : (
           filteredTasks.map(task => (
-            <View key={task.id} className='task-card'>
+            <View key={task._id} className='task-card'>
               <View className='task-left'>
                 <View className='task-icon-bar' />
                 <View className='task-content'>
                   <View className='task-header'>
                     <Text className='task-title'>{task.title}</Text>
-                    {activeTab === 'pending' && <View className='check-btn' onClick={() => handleComplete(task.id)}>✔</View>}
+                    {activeTab === 'pending' && <View className='check-btn' onClick={() => handleComplete(task._id)}>✔</View>}
                   </View>
                   <View className='task-meta'>
                     <Text>创建时间：{task.createTime}</Text>
